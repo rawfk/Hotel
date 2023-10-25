@@ -12,12 +12,46 @@ public class Reservation {
     //예) 2016-10-27T17:13:40+00:00
     private String reservationDate;
     private UUID reservationNumber;
+    public Room getReservedRoom() {
+        return reservedRoom;
+    }
 
-    public Reservation(Room reservedRoom, String customerName, String customerPhone, String reservationDate) {
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public String getReservationDate() {
+        return reservationDate;
+    }
+
+    public UUID getReservationNumber() {
+        return reservationNumber;
+    }
+
+    public Reservation(Room reservedRoom, Customer customer, String reservationDate) {
         this.reservedRoom = reservedRoom;
-        this.customerName = customerName;
-        this.customerPhone = customerPhone;
+        this.customerName = customer.getCustomerName();
+        this.customerPhone = customer.getCustomerPhone();
         this.reservationDate = reservationDate;
         this.reservationNumber = UUID.randomUUID();
+        customer.addCustomerCash(reservedRoom.getPrice());
+
     }
+
+
+
+
+
+    public void cancelReservation(Reservation reservation ,Room room, Customer cus) {
+
+        cus.addCustomerCash(this.reservedRoom.getPrice());
+        this.reservedRoom.setReserved(false);
+        this.reservationNumber = null;
+        this.customerName=null;
+    }
+
 }

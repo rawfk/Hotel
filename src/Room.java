@@ -15,4 +15,17 @@ public class Room {
         this.price = price;
     }
 
+    public void setReserved(boolean Reserve){
+        this.isReserved=Reserve;
+
+
+
+
+    }
+    public int getPrice(){
+        return price;
+    }
+
+
+
 }
