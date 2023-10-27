@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 
@@ -9,10 +10,22 @@ public class HotelApplication {
      static List<Customer> customerList;
      static List<Customer> listLogin;
 
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        ReservationManager reservationManager = new ReservationManager();
+        RoomManager roomManager = new RoomManager();
+        roomManager.addRoom("1", "싱글", 50000);
+        roomManager.addRoom("2", "더블", 75000);
+        roomManager.addRoom("3", "스위트", 100000);
+        Map<String, Room> rooms = roomManager.getRooms();
+        Hotel hotel= new Hotel(rooms);
         customerList = new ArrayList<>();
         start();
+
+
+        HotelManager hotelManager = new HotelManager(customerList.get(0), reservationManager, roomManager, rooms, sc,hotel);
+        hotelManager.run();
 
     }
     
@@ -55,23 +68,9 @@ public class HotelApplication {
 
 
 
-                System.out.println("로그아웃을 하시겠습니까?\n" +
-                        "1.예         2. 아니요");
-                int outNum = sc.nextInt();
-                if(outNum==1){
-                    logout();
-//                    for (int i=0; i<listLogin.size(); i++){   //리스트 검색
-//                        System.out.println("이름 : "+listLogin.get(i).getName());
-//                        System.out.println("폰넘버 : "+listLogin.get(i).getPhone());
-//                        System.out.println("소지금 : "+listLogin.get(i).getCash());
-//                        System.out.println("아이디 : "+listLogin.get(i).getId());
-//                        System.out.println("패스워드 : "+listLogin.get(i).getPw());
-//
-//                    }
-                }
-                else {
+
                     break;       //로그인하면 가장큰 와일문 탈출
-                }
+
 
 
 

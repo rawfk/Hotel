@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,9 +10,15 @@ public class Hotel {
     private Map<String, Room> roomMap;
     //보유 자산
     private long asset;
-    public Hotel() {
-        roomMap = new HashMap<>();
+    public Hotel(Map<String, Room> rooms) {
+        roomMap = rooms;
         asset = 0;
+    }
+    public void addAsset(int price){
+        this.asset+= (long)price;
+    }
+    public void subAsset(int price){
+        this.asset-= (long)price;
     }
 
 }

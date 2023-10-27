@@ -47,4 +47,14 @@ public class Customer {
     public String getPw(){
         return pw;
     }
+    public void subCustomerCash(int roomPrice){
+
+        cash-=roomPrice;
+
+    }
+    public void addCustomerCash(int roomPrice){
+
+        cash+=roomPrice;
+
+    }
 }

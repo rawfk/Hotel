@@ -14,4 +14,24 @@ public class Room {
         this.roomSize = size;
         this.roomRate = price;
     }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public String getSize() {
+        return roomSize;
+    }
+
+    public int getPrice() {
+        return roomRate;
+    }
+
+    public void setReserved(boolean isReserved) {
+        this.isReserved = isReserved;
+    }
+
+    public boolean isReserved() {
+        return isReserved;
+    }
 }

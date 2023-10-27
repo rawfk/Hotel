@@ -20,4 +20,44 @@ public class Reservation {
         this.creationDate = creationDate;
         this.reservationNumber = UUID.randomUUID();
     }
+
+    public Room getreservedRoom() {
+        if (reservedRoom != null) {
+            return reservedRoom;
+        } else {
+            return null;
+        }
+    }
+
+
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public String getReservationDate() {
+        return creationDate;
+    }
+
+    public UUID getReservationNumber() {
+        return reservationNumber;
+    }
+
+
+    public String getReservationInfo() {
+        if (reservedRoom != null) {
+            String reservationInfo = "고객 이름: " + getCustomerName() + "\n" +
+                    "고객 전화번호: " + getCustomerPhone() + "\n" +
+                    "예약 날짜: " + getReservationDate() + "\n"+
+                    "예약 번호: "+ getReservationNumber()+"\n"+
+                    "예약된 방:" + getreservedRoom().getRoomNumber()+" 호실 "+getreservedRoom().getSize();
+            return reservationInfo;
+        } else {
+            return "예약 정보가 없습니다.";
+        }
+    }
 }
