@@ -21,13 +21,13 @@ class HotelManager {
 
 
     public void run() {
-
-        while (true) {
+        boolean flag = true;
+        while (flag) {
             printMainMenu();
             int choice = getUserChoice();
             switch (choice) {
                 case 1:
-                    if (cus.getName().equals("admin")){
+                    if (cus.getId().equals("admin")){
                         addRoom();
                     }else {
                         makeReservation();
@@ -37,14 +37,14 @@ class HotelManager {
                     viewReservations();
                     break;
                 case 3:
-                    if (cus.getName().equals("admin")){
+                    if (cus.getId().equals("admin")){
                         roomManager.showRoomList();
                         deleteRoom();
                     }else {
                         viewReservations();
                         cancelReservation();
                     }
-
+                case 4: flag = false;
                     break;
                 default:
                     System.out.println("올바른 메뉴를 선택하세요.");
@@ -53,12 +53,13 @@ class HotelManager {
     }
 
     private void printMainMenu() {
-        if(cus.getName().equals("admin")) {
+        if(cus.getId().equals("admin")) {
             System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
             System.out.println("[관리자 서비스를 호출하셨습니다]");
             System.out.println("1. 방 추가하기");
             System.out.println("2. 전체 예약조회");
             System.out.println("3. 방 삭제하기");
+            System.out.println("4. 로그아웃");
         }
         else {
             System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
@@ -66,6 +67,7 @@ class HotelManager {
             System.out.println("1. 예약하기");
             System.out.println("2. 예약 조회");
             System.out.println("3. 예약 취소");
+            System.out.println("4. 로그아웃");
         }
     }
 
@@ -106,7 +108,7 @@ class HotelManager {
 
     private void viewReservations() {
         List<Reservation> reservations = reservationManager.getReservations();
-        if (!reservations.isEmpty()&&cus.getName().equals("admin")) {
+        if (!reservations.isEmpty()&&cus.getId().equals("admin")) {
             for (Reservation reservation : reservations) {
                 String reservationInfo = reservation.getAllReservationInfo();
                 System.out.println(reservationInfo);
