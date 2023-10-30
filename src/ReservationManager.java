@@ -8,8 +8,9 @@ public class ReservationManager {
         this.reservations = new ArrayList<>();
     }
 
-    public void addReservation(Reservation reservation) {
+    public void addReservation(Reservation reservation) {//예약 추가하고 방의 예약상태 수정
         reservations.add(reservation);
+        reservation.getreservedRoom().setReserved(true);
     }
     public List<Reservation> getReservations() {
         return reservations;

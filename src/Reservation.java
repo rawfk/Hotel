@@ -21,7 +21,7 @@ public class Reservation {
         this.reservationNumber = UUID.randomUUID();
     }
 
-    public Room getreservedRoom() {
+    public Room getreservedRoom() {//현재 예약 객체에 연결된 예약된 방 호출
         if (reservedRoom != null) {
             return reservedRoom;
         } else {
@@ -48,7 +48,7 @@ public class Reservation {
     }
 
 
-    public String getReservationInfo() {
+    public String getReservationInfo() { //예약 정보 조회
         if (reservedRoom != null) {
             String reservationInfo = "고객 이름: " + getCustomerName() + "\n" +
                     "고객 전화번호: " + getCustomerPhone() + "\n" +

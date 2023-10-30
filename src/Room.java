@@ -7,7 +7,7 @@ public class Room {
     private String roomSize;
     private int roomRate;
     //예약 여부 체크용
-    private boolean isReserved;
+    private boolean isReserved=false;
 
     public Room(String roomNumber, String size, int price) {
         this.roomNumber = roomNumber;

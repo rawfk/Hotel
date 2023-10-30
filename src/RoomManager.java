@@ -13,19 +13,23 @@ public class RoomManager {
         Room room = new Room(roomNumber, size, price);
         rooms.put(roomNumber, room);
     }
-    public void deleteRoom(String roomNumber){
-        if(rooms.containsKey(roomNumber)){
-            rooms.remove(roomNumber);
-            System.out.println(roomNumber+"호실이 성공적으로 삭제되었습니다");
-        }else{
-            System.out.println("해당 방이 존재하지 않습니다");
+    public void deleteRoom(String roomNumber) {
+        if (rooms.containsKey(roomNumber)) {
+            if (rooms.get(roomNumber).isReserved()) {
+                System.out.println(roomNumber + "호실은 이미 예약된 방이므로 삭제할 수 없습니다.");
+            } else {
+                rooms.remove(roomNumber);
+                System.out.println(roomNumber + "호실이 성공적으로 삭제되었습니다.");
+            }
+        } else {
+            System.out.println("해당 방이 존재하지 않습니다.");
         }
-
     }
+    //수정사항 방이 예약된방일시 추가 방지
 
 
 
-    public void showRoomList() {
+    public void showRoomList() {//isReserved 여부를 확인하고 예약 되어있지 않은 방만 보여주기
         System.out.println("[방 목록]");
         for (Room room : rooms.values()) {
             if (!room.isReserved()) {
