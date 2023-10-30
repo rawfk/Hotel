@@ -27,29 +27,24 @@ class HotelManager {
             int choice = getUserChoice();
             switch (choice) {
                 case 1:
-                    makeReservation();
+                    if (cus.getName().equals("admin")){
+                        addRoom();
+                    }else {
+                        makeReservation();
+                    }
                     break;
                 case 2:
                     viewReservations();
                     break;
                 case 3:
-                    viewReservations();
-                    cancelReservation();
-                    break;
-                case 4:
-                    if(cus.getName().equals("admin")) {
-                        addRoom();
-                    }else{
-                        System.out.println("올바른 메뉴를 선택하세요.");
-                    }
-                    break;
-                case 5:
-                    if (cus.getName().equals("admin")) {
+                    if (cus.getName().equals("admin")){
                         roomManager.showRoomList();
                         deleteRoom();
                     }else {
-                        System.out.println("올바른 메뉴를 선택하세요.");
+                        viewReservations();
+                        cancelReservation();
                     }
+
                     break;
                 default:
                     System.out.println("올바른 메뉴를 선택하세요.");
@@ -58,14 +53,19 @@ class HotelManager {
     }
 
     private void printMainMenu() {
-        System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
-        System.out.println("어서오세요 원하시는 서비스를 선택해주세요.");
-        System.out.println("1. 예약하기");
-        System.out.println("2. 예약 조회");
-        System.out.println("3. 예약 취소");
         if(cus.getName().equals("admin")) {
-            System.out.println("4. 방 추가");
-            System.out.println("5. 방 삭제");
+            System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+            System.out.println("[관리자 서비스를 호출하셨습니다]");
+            System.out.println("1. 방 추가하기");
+            System.out.println("2. 전체 예약조회");
+            System.out.println("3. 방 삭제하기");
+        }
+        else {
+            System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+            System.out.println("어서오세요 원하시는 서비스를 선택해주세요.");
+            System.out.println("1. 예약하기");
+            System.out.println("2. 예약 조회");
+            System.out.println("3. 예약 취소");
         }
     }
 
@@ -91,7 +91,7 @@ class HotelManager {
           //현재 고객의 보유한 돈과 방의 가격을 비교하는 부분
       }
       else if (rooms.containsKey(roomKey) && !rooms.get(roomKey).isReserved()) {//방 예약 여부
-            Reservation newReservation = new Reservation(rooms.get(roomKey), cus.getName(),cus.getPhone(), "2023-10-25T17:13:40+00:00");
+            Reservation newReservation = new Reservation(rooms.get(roomKey), cus.getName(),cus.getPhone(), "2023-10-25T17:13:40+00:00",cus.getId());
             reservationManager.addReservation(newReservation);
             //예약 객체를 받은 정보로 생성하고 예약 매니저의 리스트로 넘겨주는 기능
             int price=rooms.get(roomKey).getPrice();
@@ -105,14 +105,19 @@ class HotelManager {
     }
 
     private void viewReservations() {
-        //예약 목록 조회기능
         List<Reservation> reservations = reservationManager.getReservations();
-        if (!reservations.isEmpty()) {//고객의 현재예약 유무 체크
+        if (!reservations.isEmpty()&&cus.getName().equals("admin")) {
             for (Reservation reservation : reservations) {
-                String reservationInfo = reservation.getReservationInfo();
+                String reservationInfo = reservation.getAllReservationInfo();
                 System.out.println(reservationInfo);
             }
-        } else {
+        }else if (!reservations.isEmpty()) {
+            for (Reservation reservation : reservations) {
+                String reservationInfo = reservation.getReservationInfo(cus.getId());
+                System.out.println(reservationInfo);
+            }
+        }
+        else {
             System.out.println("예약 정보가 없습니다.");
             System.out.println("메뉴로 돌아갑니다");
         }
@@ -128,15 +133,19 @@ class HotelManager {
                 if (cancelRoomNum.equals("00")){
                     break;
                 }else {//예약 취소기능 돈 차감과 돌아가기 예외처리
-                    int price=rooms.get(cancelRoomNum).getPrice();
-                    cus.addCustomerCash(price);
-                    hotel.subAsset(price);
-                    boolean canceled = reservationManager.cancelReservation(cancelRoomNum);
-                    if (canceled) {
-                        System.out.println("예약이 취소되었습니다.");
-                        break;
+                    if (rooms.containsKey(cancelRoomNum)) {
+                        int price = rooms.get(cancelRoomNum).getPrice();
+                        cus.addCustomerCash(price);
+                        hotel.subAsset(price);
+                        boolean canceled = reservationManager.cancelReservation(cancelRoomNum);
+                        if (canceled) {
+                            System.out.println("예약이 취소되었습니다.");
+                            break;
+                        } else {
+                            System.out.println("예약을 찾을 수 없습니다. 방번호를 확인해주십시요");
+                        }
                     } else {
-                        System.out.println("방번호를 확인해주십시요");
+                        System.out.println("방번호를 확인해주십시요. 해당 방은 존재하지 않습니다.");
                     }
                 }
             }

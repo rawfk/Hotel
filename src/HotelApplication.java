@@ -157,6 +157,7 @@ public class HotelApplication {
         List<Customer> lists= new ArrayList<>();
         if(id.equals("admin") && pw.equals("admin")){     //관리자인지 아닌지 확인하고 관리자 프로그램 실행 //이퀄스로 admin인진 확인 그리고 패스워드확인
             System.out.println("관리자 프로그램 실행");
+
         }
         else if(!reallogin.getLogin()){
             System.out.println("일치되는 아이디나 패스워드가 없습니다.");

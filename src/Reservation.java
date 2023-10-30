@@ -13,12 +13,15 @@ public class Reservation {
     private String creationDate;
     private UUID reservationNumber;
 
-    public Reservation(Room reservedRoom, String customerName, String customerPhone, String creationDate) {
+    private String customerId;
+
+    public Reservation(Room reservedRoom, String customerName, String customerPhone, String creationDate,String customerId) {
         this.reservedRoom = reservedRoom;
         this.customerName = customerName;
         this.customerPhone = customerPhone;
         this.creationDate = creationDate;
         this.reservationNumber = UUID.randomUUID();
+        this.customerId = customerId;
     }
 
     public Room getreservedRoom() {//현재 예약 객체에 연결된 예약된 방 호출
@@ -48,7 +51,19 @@ public class Reservation {
     }
 
 
-    public String getReservationInfo() { //예약 정보 조회
+    public String getReservationInfo(String currentCustomerId) {
+        if (reservedRoom != null && customerId.equals(currentCustomerId)) {
+            String reservationInfo = "고객 이름: " + getCustomerName() + "\n" +
+                    "고객 전화번호: " + getCustomerPhone() + "\n" +
+                    "예약 날짜: " + getReservationDate() + "\n"+
+                    "예약 번호: "+ getReservationNumber()+"\n"+
+                    "예약된 방:" + getreservedRoom().getRoomNumber()+" 호실 "+getreservedRoom().getSize();
+            return reservationInfo;
+        } else {
+            return "예약 정보가 없거나 다른 고객의 예약입니다.";
+        }
+    }
+    public String getAllReservationInfo() {
         if (reservedRoom != null) {
             String reservationInfo = "고객 이름: " + getCustomerName() + "\n" +
                     "고객 전화번호: " + getCustomerPhone() + "\n" +
